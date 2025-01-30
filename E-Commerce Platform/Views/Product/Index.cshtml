@@ -1,0 +1,111 @@
+﻿@using E_Commerce_Platform.Models
+@* @model IEnumerable<YourNamespace.Models.Product> *@
+ @model List<Product> 
+
+@{
+    ViewData["Title"] = "Products Management";
+}
+
+
+<head>
+@*     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title> *@
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e9ecef;
+            font-family: Arial, sans-serif;
+        }
+        .table-container {
+            margin: 20px auto;
+            max-width: 1200px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        h1 {
+            font-weight: bold;
+            color: #495057;
+        }
+        .btn {
+            font-weight: bold;
+            border-radius: 20px;
+        }
+        table {
+            border-radius: 10px;
+        }
+        .table th {
+            background-color: #6c757d;
+            color: white;
+        }
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .actions button, .actions a {
+            margin: 2px;
+        }
+        .add-btn {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="table-container">
+            <h1 class="text-center">Products Management</h1>
+            <div class="text-end mb-3">
+                <a asp-action="Create" class="btn btn-success btn-lg add-btn">Add New Product</a>
+            </div>
+
+            <table class="table table-bordered table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>@product.Id</td>
+                                <td>@product.Name</td>
+                                <td>@product.Category?.Name</td>
+                                <td>@product.Price.ToString("C")</td>
+                                @* <td>@product.Stock</td> *@
+                                <td class="actions">
+                                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-info btn-sm">Details</a>
+                                    <form asp-action="Delete" asp-route-id="@product.Id" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center">No products available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
